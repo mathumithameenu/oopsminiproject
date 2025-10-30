@@ -1,0 +1,60 @@
+package miniproject;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+	public class DigitalClock extends JFrame implements ActionListener {
+	    JLabel timeLabel;
+	    JTextField alarmField;
+	    JButton setAlarmBtn;
+	    Timer timer;
+	    String alarmTime = "";
+
+	    public DigitalClock() {
+	        setTitle("Digital Clock with Alarm");
+	        setSize(350, 200);
+	        setLayout(new FlowLayout());
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        timeLabel = new JLabel();
+	        timeLabel.setFont(new Font("Arial", Font.BOLD, 30));
+
+	        alarmField = new JTextField(10);
+	        setAlarmBtn = new JButton("Set Alarm");
+	        setAlarmBtn.addActionListener(this);
+
+	        add(timeLabel);
+	        add(new JLabel("Set Alarm (HH:mm:ss):"));
+	        add(alarmField);
+	        add(setAlarmBtn);
+
+	        timer = new Timer(1000, e -> updateTime());
+	        timer.start();
+
+	        setVisible(true);
+	    }
+
+	    void updateTime() {
+	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	        String currentTime = sdf.format(new Date());
+	        timeLabel.setText(currentTime);
+
+	        if (currentTime.equals(alarmTime)) {
+	            JOptionPane.showMessageDialog(this, "⏰ Alarm! Time's up!");
+	            alarmTime = ""; // reset alarm
+	        }
+	    }
+
+	    public void actionPerformed(ActionEvent e) {
+	        alarmTime = alarmField.getText().trim();
+	        JOptionPane.showMessageDialog(this, "Alarm set for: " + alarmTime);
+	    }
+
+	    public static void main(String[] args) {
+	        new DigitalClock();
+	    }
+	}
+
+
